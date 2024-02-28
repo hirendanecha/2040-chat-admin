@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, mapToCanActivate } from '@angular/router';
 import { LoginComponent } from './views/login/login.component';
 import { LayoutComponent } from './containers/default-layout/layout.component';
+import { AuthenticationGuard } from './@shared/guards/authentication.guard';
 
 const routes: Routes = [
   {
@@ -22,16 +23,19 @@ const routes: Routes = [
           import('./views/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
+          canActivate: mapToCanActivate([AuthenticationGuard])
       },
       {
         path: 'user',
         loadChildren: () =>
           import('./views/users/user.module').then((m) => m.UserModule),
+          canActivate: mapToCanActivate([AuthenticationGuard])
       },
       {
         path: 'marketing',
         loadChildren: () =>
           import('./views/marketing-page/marketing.module').then((m) => m.MarketingModule),
+          canActivate: mapToCanActivate([AuthenticationGuard])
       }
     ],
   },
