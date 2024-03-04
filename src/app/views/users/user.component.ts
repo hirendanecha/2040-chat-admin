@@ -51,8 +51,7 @@ export class UserComponent implements OnInit {
     this.getUserList();
   }
 
-  ngAfterViewInIit(): void {
-  }
+  ngAfterViewInIit(): void {}
 
   getUserList(startDate?, toDate?): void {
     this.spinner.show();
@@ -63,23 +62,23 @@ export class UserComponent implements OnInit {
         this.searchCtrl,
         this.startDate,
         this.endDate
-      ).subscribe({
+      )
+      .subscribe({
         next: (res: any) => {
-          this.spinner.hide()
+          this.spinner.hide();
           if (res?.data) {
             this.userData = res?.data;
             this.pagination.totalItems = res?.pagination?.totalItems;
           }
         },
         error: (error) => {
-          this.spinner.hide()
+          this.spinner.hide();
           console.log(error);
         },
       });
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   onPageChange(config: Pagination): void {
     this.pagination = config;
@@ -100,10 +99,9 @@ export class UserComponent implements OnInit {
         this.userService.deleteUser(userId).subscribe({
           next: (data: any) => {
             if (data) {
-              this.toaster.success('User deleted successfully')
+              this.toaster.success('User deleted successfully');
               modalRef.close();
               this.getUserList();
-
             }
           },
           error: (error) => {
@@ -130,15 +128,14 @@ export class UserComponent implements OnInit {
         this.userService.deleteAllData(id).subscribe({
           next: (data: any) => {
             if (data) {
-              this.toaster.success('User data deleted successfully')
+              this.toaster.success('User data deleted successfully');
               modalRef.close();
               this.getUserList();
-
             }
           },
           error: (error) => {
             // this.message = error.err.message;
-            this.toaster.danger('Please try again')
+            this.toaster.danger('Please try again');
             console.log(error);
           },
         });
@@ -176,7 +173,6 @@ export class UserComponent implements OnInit {
       next: (res) => {
         this.toaster.success(res.message);
         this.getUserList();
-
       },
       error: (error) => {
         this.toaster.danger(error.message);
@@ -189,7 +185,6 @@ export class UserComponent implements OnInit {
       next: (res) => {
         this.toaster.success(res.message);
         this.getUserList();
-
       },
       error: (error) => {
         this.toaster.danger(error.message);
@@ -211,7 +206,6 @@ export class UserComponent implements OnInit {
       next: (res) => {
         this.toaster.success(res.message);
         this.getUserList();
-
       },
       error: (error) => {
         this.toaster.danger(error.message);
@@ -222,7 +216,7 @@ export class UserComponent implements OnInit {
     this.searchCtrl = this.filterComponent.searchCtrl.value;
     this.startDate = this.filterComponent.startDate;
     this.endDate = this.filterComponent.toDate;
-    this.getUserList()
+    this.getUserList();
   }
 
   showListView() {
@@ -231,5 +225,17 @@ export class UserComponent implements OnInit {
 
   showTableView() {
     this.currentView = 'table';
+  }
+
+  createAdmin(id: any): void {
+    this.userService.createAdmin(id).subscribe({
+      next: (res) => {
+        this.toaster.success(res.message);
+        this.getUserList();
+      },
+      error: (error) => {
+        this.toaster.danger(error.message);
+      },
+    });
   }
 }

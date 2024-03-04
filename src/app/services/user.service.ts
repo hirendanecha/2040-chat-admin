@@ -12,7 +12,7 @@ const httpOptions = {
 })
 export class UserService {
   private baseUrl = environment.serverUrl + 'customers';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(login: any): Observable<Object> {
     return this.http.post(`${environment.serverUrl}login/admin`, {
@@ -21,17 +21,21 @@ export class UserService {
     });
   }
 
-  userList(page: number, size: number, search: string = '', startDate, endDate): Observable<any> {
+  userList(
+    page: number,
+    size: number,
+    search: string = '',
+    startDate,
+    endDate
+  ): Observable<any> {
     const data = {
       page: page,
       size: size,
       search: search,
       startDate: startDate,
-      endDate: endDate
-    }
-    return this.http.post(
-      `${this.baseUrl}`, data
-    );
+      endDate: endDate,
+    };
+    return this.http.post(`${this.baseUrl}`, data);
   }
 
   getUserDetailsById(Id: any): Observable<any> {
@@ -44,6 +48,11 @@ export class UserService {
     return this.http.get(
       `${this.baseUrl}/change-status/${userId}?IsActive=${IsActive}`
     );
+  }
+
+  createAdmin(id): Observable<any> {
+    const userId = id;
+    return this.http.get(`${this.baseUrl}/create-admin/${userId}`);
   }
 
   changeAccountType(id, status): Observable<any> {

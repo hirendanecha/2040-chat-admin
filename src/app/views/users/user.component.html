@@ -88,35 +88,36 @@
               {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
             </button>
             <button
-              class="btn btn-sm text-white m-1 custom-btn-list"
-              [ngClass]="
-                user.MediaApproved === 0 || user.MediaApproved === null
-                  ? 'btn-success'
-                  : 'btn-danger'
-              "
-              (click)="
-                changeMediaType(
-                  user.profileId,
-                  user.MediaApproved === 0 || user.MediaApproved === null
-                    ? 1
-                    : 0
-                )
-              "
+              class="btn btn-sm text-white m-1 custom-btn-list btn-success"
+              *ngIf="user?.MediaApproved === null"
+              (click)="changeMediaType(user.Id, 1)"
             >
-              {{
-                user.MediaApproved === 0 || user.MediaApproved === null
-                  ? "Activate Media"
-                  : "De-activate"
-              }}
+              {{ "Accept approval" }}
+            </button>
+            <button
+              *ngIf="user?.MediaApproved === null"
+              class="btn btn-sm text-white m-1 custom-btn-list btn-danger"
+              (click)="changeMediaType(user.Id, 0)"
+            >
+              {{ "Reject approval" }}
             </button>
 
             <button
+              *ngIf="user?.IsAdmin === 'N' && user.MediaApproved === 1"
+              [ngClass]="user.IsAdmin === 'N' ? ' btn-success' : 'btn-danger'"
+              class="btn btn-sm text-white m-1 custom-btn-list"
+              (click)="createAdmin(user.Id)"
+            >
+              {{ "Create MA" }}
+            </button>
+
+            <!-- <button
               class="btn btn-sm btn-info m-1 custom-btn-list text-white"
               (click)="deleteAllData(user.profileId)"
             >
               Delete All Data
-            </button>
-            <button
+            </button> -->
+            <!-- <button
               class="btn btn-sm text-white m-1 custom-btn-list"
               [ngClass]="user.IsActive === 'N' ? ' btn-danger' : 'btn-success'"
               (click)="
@@ -128,7 +129,7 @@
                   ? "Non-activated account"
                   : "Activated account"
               }}
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -205,7 +206,7 @@
             <td>{{ user.Zip || "-" }}</td>
             <td class="c-width">
               <tr>
-                <button
+                <!-- <button
                   class="btn btn-sm text-white m-1 custom-btn"
                   size="sm"
                   [ngClass]="
@@ -236,20 +237,46 @@
                 >
                   {{
                     user.MediaApproved === 0 || user.MediaApproved === null
-                      ? "Activate Media"
-                      : "De-activate"
+                      ? "Accept approval"
+                      : "Reject approval"
                   }}
+                </button> -->
+
+                <button
+                  class="btn btn-sm text-white m-1 custom-btn-list btn-success"
+                  *ngIf="user?.MediaApproved === null"
+                  (click)="changeMediaType(user.profileId, 0)"
+                >
+                  {{ "Accept approval" }}
+                </button>
+                <button
+                  *ngIf="user?.MediaApproved === null"
+                  class="btn btn-sm text-white m-1 custom-btn-list btn-danger"
+                  (click)="changeMediaType(user.profileId, 1)"
+                >
+                  {{ "Reject approval" }}
                 </button>
 
                 <button
+                  *ngIf="user?.IsAdmin === 'N' && user?.MediaApproved === 0"
+                  [ngClass]="
+                    user.IsAdmin === 'N' ? ' btn-success' : 'btn-danger'
+                  "
+                  class="btn btn-sm text-white m-1 custom-btn-list"
+                  (click)="createAdmin(user.Id)"
+                >
+                  {{ "Create MA" }}
+                </button>
+
+                <!-- <button
                   class="btn btn-sm btn-info m-1 custom-btn text-white"
                   size="sm"
                   (click)="deleteAllData(user.profileId)"
                 >
                   Delete All Data
-                  <!-- <svg cIcon name="cil-trash" size="md"></svg> -->
-                  <!-- <i class="material-symbols-outlined"> delete </i> -->
-                </button>
+                  <svg cIcon name="cil-trash" size="md"></svg>
+                  <i class="material-symbols-outlined"> delete </i>
+                </button> -->
               </tr>
             </td>
             <!-- <td>
