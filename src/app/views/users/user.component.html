@@ -1,7 +1,7 @@
 <c-card class="app-user mb-3">
   <c-card-header class="d-flex align-items-center justify-content-between">
     User
-    <div class="d-flex">
+    <!-- <div class="d-flex">
       <div
         class="d-flex filter-table-action btn btn-outline-secondary m-1"
         [class.active]="currentView === 'list'"
@@ -16,7 +16,7 @@
       >
         <span class="material-symbols-outlined">table_view</span>
       </div>
-    </div>
+    </div> -->
   </c-card-header>
 
   <c-card-body>
@@ -77,6 +77,7 @@
           </div>
           <div class="clo-4 d-flex flex-column c-list-btn">
             <button
+              *ngIf="user.MediaApproved === 1"
               class="btn btn-sm text-white m-1 custom-btn-list"
               [ngClass]="
                 user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
@@ -85,7 +86,7 @@
                 suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
               "
             >
-              {{ user.IsSuspended === "N" ? "Suspend" : "Re-active" }}
+              {{ user.IsSuspended === "N" ? "Suspend" : "Approve" }}
             </button>
             <button
               class="btn btn-sm text-white m-1 custom-btn-list btn-success"
@@ -204,8 +205,8 @@
             </td>
             <td>{{ user.State || "-" }}</td>
             <td>{{ user.Zip || "-" }}</td>
-            <td class="c-width">
-              <tr>
+            <td class="c-width justify-content-center">
+              <tr class="justify-content-center">
                 <!-- <button
                   class="btn btn-sm text-white m-1 custom-btn"
                   size="sm"
@@ -243,22 +244,34 @@
                 </button> -->
 
                 <button
+                  *ngIf="user.MediaApproved === 1"
+                  class="btn btn-sm text-white m-1 custom-btn-list"
+                  [ngClass]="
+                    user.IsSuspended === 'N' ? ' btn-danger' : 'btn-success'
+                  "
+                  (click)="
+                    suspendUser(user.Id, user.IsSuspended === 'N' ? 'Y' : 'N')
+                  "
+                >
+                  {{ user.IsSuspended === "N" ? "Suspend" : "Approve" }}
+                </button>
+                <button
                   class="btn btn-sm text-white m-1 custom-btn-list btn-success"
                   *ngIf="user?.MediaApproved === null"
-                  (click)="changeMediaType(user.profileId, 0)"
+                  (click)="changeMediaType(user.Id, 1)"
                 >
                   {{ "Accept approval" }}
                 </button>
                 <button
                   *ngIf="user?.MediaApproved === null"
                   class="btn btn-sm text-white m-1 custom-btn-list btn-danger"
-                  (click)="changeMediaType(user.profileId, 1)"
+                  (click)="changeMediaType(user.Id, 0)"
                 >
                   {{ "Reject approval" }}
                 </button>
 
                 <button
-                  *ngIf="user?.IsAdmin === 'N' && user?.MediaApproved === 0"
+                  *ngIf="user?.IsAdmin === 'N' && user.MediaApproved === 1"
                   [ngClass]="
                     user.IsAdmin === 'N' ? ' btn-success' : 'btn-danger'
                   "
